@@ -44,8 +44,11 @@ public class LinksServices {
         Links res;
         try {
             res = linksDao.getEm().createNamedQuery(Links.FIND_BY_ID, Links.class).setParameter("id", id).getSingleResult();
+
         } catch (NoResultException e) {
-            throw new NotFoundException();
+
+                return null;
+//            throw new NotFoundException();
         }
         return res;
     }

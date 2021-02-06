@@ -9,23 +9,23 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "TB_Links")
+@Table(name = "TB_Links", uniqueConstraints = {@UniqueConstraint(columnNames = {"REDIRECT_LINK"})})
 @Cacheable(false)
 @Data
 @NamedQueries({
         @NamedQuery(name = Links.FIND_ALL, query = "SELECT u FROM Links u ORDER BY u.id DESC"),
         @NamedQuery(name = Links.FIND_BY_ID, query = "SELECT u FROM Links u WHERE u.id = :id"),
+        @NamedQuery(name = Links.FIND_BY_LONG_URL, query = "SELECT u FROM Links u WHERE u.redirectLink = :redirectLink"),
         @NamedQuery(name = Links.COUNT_ALL, query = "SELECT COUNT(u) FROM Links u")
 })
 public class Links implements Serializable {
     public static final String FIND_ALL = "Links.findAll";
     public static final String COUNT_ALL = "Links.countAll";
     public static final String FIND_BY_ID = "Links.findById";
+    public static final String FIND_BY_LONG_URL = "Links.findByLongUrl";
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
-//    @SequenceGenerator(name = "TB_LINKS_SEQ_GENERATOR", sequenceName = "LINKS_SEQ", initialValue = 10000, allocationSize = 1)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TB_LINKS_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_ID", nullable = false)
     private long id;
 
