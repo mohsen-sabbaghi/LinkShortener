@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="7"
+             xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd">
+
+    <display-name>LinkShortener-ear</display-name>
+
+    <module>
+        <web>
+            <web-uri>/LinkShortener-web.war</web-uri>
+            <context-root>/</context-root>
+        </web>
+    </module>
+
+    <module>
+        <web>
+            <web-uri>/LinkShortener-UI.war</web-uri>
+            <context-root>/shorten</context-root>
+        </web>
+    </module>
+    <module>
+        <ejb>LinkShortener-ejb.jar</ejb>
+    </module>
+
+</application>

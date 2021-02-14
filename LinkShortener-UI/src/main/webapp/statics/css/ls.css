@@ -1,0 +1,45 @@
+.hm-gradient {
+    background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+}
+
+.btn-dark-blue {
+    background: #7474BF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #348AC7, #7474BF);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #348AC7, #7474BF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: #fff;
+    font-size: 12pt;
+}
+
+.darken-grey-text {
+    color: #2E2E2E;
+}
+
+.danger-text {
+    color: #ff3547;
+}
+
+.default-text {
+    color: #2BBBAD;
+}
+
+.info-text {
+    color: #33b5e5;
+}
+.flex{
+    display: flex;
+    align-items: baseline;
+}
+.flex label{
+    white-space: nowrap;
+    margin-right: 25px;
+}
+.hiddend-label{
+    display: none;
+}
+.ripe-malinka-gradient {
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+}
+
+.near-moon-gradient {
+    background-image: linear-gradient(to bottom, #5ee7df 0%, #b490ca 100%);
+}
