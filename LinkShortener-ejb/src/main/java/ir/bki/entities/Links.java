@@ -10,9 +10,11 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
+import static ir.bki.app.AppConstants.DATASOURCE_SCHEMA;
+
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "TB_Links", uniqueConstraints = {@UniqueConstraint(columnNames = {"REDIRECT_LINK"})})
+@Table(name = DATASOURCE_SCHEMA + "TB_Links", uniqueConstraints = {@UniqueConstraint(columnNames = {"REDIRECT_LINK"})})
 @Cacheable(false)
 @Data
 @NamedQueries({
@@ -30,7 +32,8 @@ public class Links extends GsonModel implements Serializable {
     public static final String FIND_BY_SHORT_URL = "Links.findByShortUrl";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "T_LINKS_SEQ_GENERATOR", sequenceName = DATASOURCE_SCHEMA + "SQ_LINK", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "T_LINKS_SEQ_GENERATOR")
     @Column(name = "PK_ID", nullable = false)
     private long id;
 
@@ -63,7 +66,7 @@ public class Links extends GsonModel implements Serializable {
     private String description;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         setCreatedDate(new Date());
     }
 }

@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
 
+import static ir.bki.app.AppConstants.DATASOURCE_SCHEMA;
+
 /**
  * @author Antonio Goncalves
  * http://www.antoniogoncalves.org
@@ -21,7 +23,7 @@ import java.util.Date;
 
 @Entity
 @Cacheable(false)
-@Table(name = "TB_USER")
+@Table(name = DATASOURCE_SCHEMA+"TB_USER")
 @NamedQueries({
         @NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u ORDER BY u.lastName DESC"),
         @NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),

@@ -7,8 +7,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class AppConstants {
-    public static final String BUILD_TIME = "2020/2/13 1399/11/25";
-    public static final String APP_VERSION = "2020.2.0";
+    public static final String BUILD_TIME = "2021/03/06 1399/12/15";
+    public static final String APP_VERSION = "2021.1.0";
+    public static final String DATASOURCE_SCHEMA = "LINKSHORTENER.";
+
 
     public static Map<String, User> Map_User = new ConcurrentHashMap<>();
 }

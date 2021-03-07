@@ -8,8 +8,8 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <jta-data-source>jdbc/LinkShortenerDb</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
-      <!--      <property name="javax.persistence.schema-generation.database.action" value="none"/>-->
+<!--      <property name="javax.persistence.schema-generation.database.action" value="create"/>-->
+            <property name="javax.persistence.schema-generation.database.action" value="none"/>
       <!--<property name="javax.persistence.schema-generation.database.action" value="validate"/>-->
       <!--      <property name="eclipselink.logging.logger" value="org.eclipse.persistence.logging.DefaultSessionLog"/>-->
       <!--      <property name="eclipselink.logging.level" value="FINE"/>-->

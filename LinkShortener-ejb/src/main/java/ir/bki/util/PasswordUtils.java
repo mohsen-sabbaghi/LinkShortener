@@ -28,6 +28,6 @@ public class PasswordUtils {
     }
 
 //    public static void main(String[] args) {
-//        System.out.println("Digested Password: "+digestPassword("admin99*"));
+////        System.out.println("Digested Password: "+digestPassword("admin99*"));
 //    }
 }
