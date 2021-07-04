@@ -3,8 +3,8 @@ package ir.bki.endpoints;
 import ir.bki.entities.Links;
 import ir.bki.filters.LogReqRes;
 import ir.bki.interceptors.Loggable;
+import ir.bki.producers.HashThisProducer;
 import ir.bki.services.LinksServices;
-import ir.bki.util.BaseConversion;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-import java.util.Date;
 
 @Path("/{url}")
 @Loggable
@@ -22,24 +21,28 @@ import java.util.Date;
 public class FetchEndPoint {
 
     @Inject
-    private LinksServices linksServices;
+    public HashThisProducer hashids;
+
     @Inject
-    private BaseConversion baseConversion;
+    private LinksServices linksServices;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response fetchUrl(@PathParam("url") String url) {
-        Links linksToRedirect = linksServices.retrieveOne(baseConversion.decode(url));
-        if (linksToRedirect == null)
-            linksToRedirect = linksServices.shortUrlAlreadyExist(url);
+
+        Links linksToRedirect = linksServices.shortUrlAlreadyExist(url);
+
         if (linksToRedirect == null) {
-            return Response.status(404).entity("URL Not Found").build();
+            try {
+                linksToRedirect = linksServices.retrieveOne(hashids.getHashThisInstance().decode(url.trim())[0]);
+            } catch (Exception e) {
+                return Response.status(404).entity("URL Not Found").build();
+            }
         }
         if (linksServices.isExpired(linksToRedirect)) {
-            return Response.status(404).entity("URL Expired").build();
+            return Response.status(410).entity("Requested URL expired or no longer available").build();
         }
         return Response.seeOther(URI.create(linksToRedirect.getRedirectLink())).build();
     }
-
 
 }

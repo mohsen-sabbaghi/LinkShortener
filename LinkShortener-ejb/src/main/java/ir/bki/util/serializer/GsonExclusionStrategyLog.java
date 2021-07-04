@@ -13,7 +13,7 @@ import com.google.gson.FieldAttributes;
 public class GsonExclusionStrategyLog implements ExclusionStrategy {
 
     public boolean shouldSkipField(FieldAttributes f) {
-        return (f.getAnnotation(GsonExcludeFieldLog.class) != null) ;
+        return (f.getAnnotation(GsonExcludeFieldLog.class) != null);
     }
 
     public boolean shouldSkipClass(Class<?> clazz) {

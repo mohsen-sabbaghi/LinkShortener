@@ -60,12 +60,13 @@ public class BasicAuthNeededFilter implements ContainerRequestFilter {
 
     //-------------------------------------------------------------------------------
     private UserDao getDao() {
-        InitialContext ctx = null;
+        InitialContext ctx;
         UserDao userDao = null;
         try {
             ctx = new InitialContext();
             userDao = (UserDao) ctx.lookup("java:app/LinkShortener-ejb/UserDao");
 //            userDao = (UserDao) ctx.lookup("java:global.LinkShortener-ear.LinkShortener-ejb.UserDao");
+//            userDao = (UserDao) ctx.lookup("java:global/LinkShortener-ear_ear/LinkShortener-ejb/UserDao");
         } catch (NamingException ex) {
             LOGGER.error("Cannot do the JNDI Lookup to instantiate the userDao service : " + ex);
         }

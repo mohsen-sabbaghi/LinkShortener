@@ -178,10 +178,10 @@ public class HttpHelper {
                 map.put(entry.getKey(), maskCard10Char(sb.toString()));
             else if (entry.getKey().equalsIgnoreCase("Pin2") ||
                     entry.getKey().equalsIgnoreCase("Password") ||
-                    entry.getKey().equalsIgnoreCase("Card-Cvv2")||
-                    entry.getKey().equalsIgnoreCase("Card-Password")||
-                    entry.getKey().equalsIgnoreCase("Client-Id")||
-                    entry.getKey().equalsIgnoreCase("Client-Secret")||
+                    entry.getKey().equalsIgnoreCase("Card-Cvv2") ||
+                    entry.getKey().equalsIgnoreCase("Card-Password") ||
+                    entry.getKey().equalsIgnoreCase("Client-Id") ||
+                    entry.getKey().equalsIgnoreCase("Client-Secret") ||
                     entry.getKey().equalsIgnoreCase("X-API-Key")
 
             ) {

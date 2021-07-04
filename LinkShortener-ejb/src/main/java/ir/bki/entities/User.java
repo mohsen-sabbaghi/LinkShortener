@@ -23,7 +23,7 @@ import static ir.bki.app.AppConstants.DATASOURCE_SCHEMA;
 
 @Entity
 @Cacheable(false)
-@Table(name = DATASOURCE_SCHEMA+"TB_USER")
+@Table(name = DATASOURCE_SCHEMA + "TB_USER")
 @NamedQueries({
         @NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u ORDER BY u.lastName DESC"),
         @NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username"),

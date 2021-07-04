@@ -3,7 +3,7 @@ package ir.bki.services;
 import ir.bki.dao.LinksDao;
 import ir.bki.dto.LinkDto;
 import ir.bki.entities.Links;
-import ir.bki.util.BaseConversion;
+import ir.bki.producers.HashThisProducer;
 import lombok.Getter;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -23,11 +23,8 @@ public class LinksServices {
     public LinksDao linksDao;
 
     @Inject
-    public BaseConversion baseConversion;
+    public HashThisProducer hashids;
 
-    public String sayHello() {
-        return "HELLO FROM LinksServices";
-    }
 
     public Links createLink(LinkDto linkDto) {
         Links links = new Links();
@@ -38,7 +35,8 @@ public class LinksServices {
         links.setHttpStatusCode(201);
         links.setEnabled(true);
         Links response = linksDao.create(links);
-        String encodedLink = baseConversion.encode(response.getId());
+//        String encodedLink = baseConversion.encode(response.getId());
+        String encodedLink = hashids.getHashThisInstance().encode(response.getId());
         if (linkDto.getDesiredlink() != null) {
             encodedLink = linkDto.getDesiredlink();
         }

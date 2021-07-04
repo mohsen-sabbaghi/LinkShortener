@@ -1,4 +1,5 @@
 package ir.bki.util;
+
 import lombok.var;
 
 import javax.ejb.Stateless;

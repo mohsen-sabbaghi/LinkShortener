@@ -26,7 +26,7 @@ public final class JSONFormatter {
      * Gson
      */
     public static Gson GSON = new GsonBuilder()
-              .setPrettyPrinting()
+            .setPrettyPrinting()
 //            .registerTypeAdapter(Date.class, new DateSerializer())
 //            .setExclusionStrategies(new GsonExclusionStrategy())//Added By Msh 9608
             .setFieldNamingPolicy(FIELD_NAMING_POLICY).create();
@@ -57,6 +57,7 @@ public final class JSONFormatter {
             .setExclusionStrategies(new GsonExclusionStrategy())//Added By Msh 9608
             .setExclusionStrategies(new GsonExclusionStrategyLog())//Added By Msh 9608
             .setFieldNamingPolicy(FIELD_NAMING_POLICY).create();
+
     /*
      * JSONFormatter is coupled to the stubs generated using the SDK generator.
      * Since PayPal REST APIs support only JSON, this class is bound to the
@@ -88,18 +89,22 @@ public final class JSONFormatter {
             return GSON_LOG.toJson(t);
         return "{}";
     }
+
     public static <T> String toJSONFull(T t) {
         if (t != null)
             return GSON_FULL.toJson(t);
         return "{}";
     }
+
     public static <T> String toJSONElastic(T t) {
         if (t != null)
             return GSON_ELASTIC.toJson(t);
         return "{}";
     }
+
     public static <T> Map toMap(T t) {
-        Type type = new TypeToken<Map<String, String>>(){}.getType();
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
         return GSON.fromJson(toJSON(t), type);
     }
 
@@ -135,16 +140,6 @@ public final class JSONFormatter {
         return t;
     }
 
-    public <T> T fromJSON(String json, Type typeOfT) throws JsonSyntaxException {
-        if(json == null) {
-            return null;
-        } else {
-            StringReader reader = new StringReader(json);
-            T target = GSON.fromJson(reader, typeOfT);
-            return target;
-        }
-    }
-
     public static boolean isJsonValid(String json) {
         try {
             JsonParser parser = new JsonParser();
@@ -154,5 +149,15 @@ public final class JSONFormatter {
 
         }
         return false;
+    }
+
+    public <T> T fromJSON(String json, Type typeOfT) throws JsonSyntaxException {
+        if (json == null) {
+            return null;
+        } else {
+            StringReader reader = new StringReader(json);
+            T target = GSON.fromJson(reader, typeOfT);
+            return target;
+        }
     }
 }

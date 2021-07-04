@@ -13,9 +13,9 @@ import com.google.gson.FieldAttributes;
 public class GsonExclusionStrategy implements ExclusionStrategy {
 
     public boolean shouldSkipField(FieldAttributes f) {
-        return (f.getAnnotation(GsonExcludeField.class) != null) || (f.getName().toLowerCase().equals("password" ))
-                || (f.getName().toLowerCase().equals("pin2" )
-                || (f.getName().toLowerCase().equals("pin_2" )   )) ;
+        return (f.getAnnotation(GsonExcludeField.class) != null) || (f.getName().toLowerCase().equals("password"))
+                || (f.getName().toLowerCase().equals("pin2")
+                || (f.getName().toLowerCase().equals("pin_2")));
     }
 
     public boolean shouldSkipClass(Class<?> clazz) {

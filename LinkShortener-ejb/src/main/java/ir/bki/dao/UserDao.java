@@ -3,7 +3,6 @@ package ir.bki.dao;
 
 import ir.bki.entities.User;
 import ir.bki.util.PasswordUtils;
-import org.apache.log4j.Logger;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -20,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static ir.bki.logging.LoggerTypes.STACK_TRACE;
 
 @Stateless
 @TransactionManagement(value = TransactionManagementType.CONTAINER)
@@ -81,8 +78,8 @@ public class UserDao {
     }
 
     public List<User> findAll() {
-        if (getEntityManager() == null)
-            System.out.println("** EM ISNULL");
+//        if (getEntityManager() == null)
+//            System.out.println("** EM ISNULL");
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(User.class));
         return getEntityManager().createQuery(cq).getResultList();

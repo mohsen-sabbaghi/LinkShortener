@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class AppConstants {
-    public static final String BUILD_TIME = "2021/03/06 1399/12/15";
+    public static final String BUILD_TIME = "2021/05/05 1400/02/15";
     public static final String APP_VERSION = "2021.1.0";
     public static final String DATASOURCE_SCHEMA = "LINKSHORTENER.";
 

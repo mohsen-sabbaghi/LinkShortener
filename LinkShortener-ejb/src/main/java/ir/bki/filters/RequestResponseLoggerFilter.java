@@ -61,7 +61,7 @@ public class RequestResponseLoggerFilter implements ContainerRequestFilter, Cont
             String serverRequestCounter = (String) servletRequest.getAttribute("SERVER_REQUEST_COUNTER");
             StopWatch stopwatch = threadLocalStopWatch.get();
             stopwatch.stop("Log Request");
-            LOGGER_REQUESTS.info(serverRequestCounter + " <-- SEND RES  : "  + responseContext.getHeaderString("short_link"));
+            LOGGER_REQUESTS.info(serverRequestCounter + " <-- SEND RES  : " + responseContext.getHeaderString("short_link"));
         } catch (Exception ex) {
             LOGGER_STACKTRACE.error("Exception in " + RequestResponseLoggerFilter.class.getSimpleName() + " **Response** ,message: " + ex);
         }
