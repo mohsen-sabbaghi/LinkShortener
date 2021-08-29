@@ -22,8 +22,9 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.version>2.3.2</maven.compiler.version>
     </properties>
 
@@ -44,5 +45,6 @@
 
         </dependencies>
     </dependencyManagement>
+
 
 </project>

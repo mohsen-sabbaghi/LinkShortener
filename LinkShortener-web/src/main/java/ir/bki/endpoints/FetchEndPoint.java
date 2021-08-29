@@ -30,6 +30,11 @@ public class FetchEndPoint {
     @Produces(MediaType.TEXT_HTML)
     public Response fetchUrl(@PathParam("url") String url) {
 
+        if ("admin".trim().equalsIgnoreCase(url)) {
+            System.err.println("url contain = admin or administrator.jsp ==> " + url);
+            return Response.seeOther(URI.create("/shorten/admin")).build();
+        }
+
         Links linksToRedirect = linksServices.shortUrlAlreadyExist(url);
 
         if (linksToRedirect == null) {
@@ -39,7 +44,7 @@ public class FetchEndPoint {
                 return Response.status(404).entity("URL Not Found").build();
             }
         }
-        if (linksServices.isExpired(linksToRedirect)) {
+        if (linksServices.isExpired(linksToRedirect) || !linksToRedirect.isEnabled()) {
             return Response.status(410).entity("Requested URL expired or no longer available").build();
         }
         return Response.seeOther(URI.create(linksToRedirect.getRedirectLink())).build();

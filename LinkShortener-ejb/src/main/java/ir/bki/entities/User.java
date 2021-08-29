@@ -9,8 +9,8 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import static ir.bki.app.AppConstants.DATASOURCE_SCHEMA;
@@ -48,69 +48,88 @@ public class User {//TODO ADD TRY COUNT
     // ======================================
     // =             Attributes             =
     // ======================================
+
+    @ManyToMany(fetch = FetchType.EAGER)//,  mappedBy = "role",orphanRemoval = true
+    @JoinTable(
+            name = DATASOURCE_SCHEMA+"JND_USER_ROLE",
+            joinColumns = @JoinColumn(name = "FK_USER", referencedColumnName = "PK_USER_NAME"),//
+            inverseJoinColumns = @JoinColumn(name = "FK_ROLE", referencedColumnName = "PK_NAME"))//
+    private Collection<Role> roles = new ArrayList<>();
+
     @Id
     @NotNull
     @Size(max = 29)
     @Column(name = "PK_USER_NAME", length = 29, nullable = false)
     private String username;
+
     @Column(name = "LAST_NAME", length = 100)
     private String lastName;
+
     @Column(name = "FIRST_NAME", length = 100)
     private String firstName;
+
     @NotNull
     @Size(max = 250)
     @Column(name = "PASSWORD", nullable = false, length = 250)
     private String password;
+
     @Column(name = "CREATE_TIME")
-    @XmlElement(name = "create-time")
     @Temporal(TemporalType.TIMESTAMP)
     @Expose
     @SerializedName("create-time")
-    @XmlTransient
     private Date createTime;
+
     @Column(name = "UPDATE_TIME")
-    @XmlElement(name = "update-time")
     @Temporal(TemporalType.TIMESTAMP)
     @SerializedName("update-time")
     @Expose
     private Date updateTime;
+
     @Size(max = 15)
     @Column(name = "NATIONAL_CODE", length = 15)
     private String nationalCode;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "DATE_OF_BIRTH")
     private Date dateOfBirth;
+
     @Column(name = "PERSONAL_ID")
     private Long personalId;
+
     @Column(name = "AVATAR_URL")
     private String avatarUrl;
+
     @Column(name = "COMPANY", length = 100)
     private String company;
+
     @Size(max = 15, message = "#telphone must be mor than 15 number")
     @Column(name = "TEL", length = 15)
     private String tel;
+
     @Column(name = "TYPE")
     private Integer type;
+
     @Column(name = "RTY_COUNT")
     private Integer tryCount;
+
     @Size(max = 300)
     @Column(name = "STORAGE_KEY", length = 300)
     private String storageKey;
     @Size(max = 500)
     @Column(name = "URL", length = 500)
     private String url;
-    @XmlElement(name = "enabled")
+
+
     @Column(name = "ENABLED")
     @SerializedName("enabled")
     @Expose
     private Boolean enabled;
+
     @Column(name = "STATUS")
-    @XmlElement(name = "status")
     @Expose
     private Integer status;
 
     @Column(name = "VERSION")
-    @XmlElement(name = "version")
     @SerializedName("version")
     @Expose
     private Long version;

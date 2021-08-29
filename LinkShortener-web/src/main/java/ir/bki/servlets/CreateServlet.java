@@ -1,7 +1,8 @@
-package ir.bki.config;
+package ir.bki.servlets;
 
 
 import ir.bki.endpoints.ShortenerEndPoint;
+import ir.bki.filters.auhtorize.RolesAllowedRequestFilter;
 import ir.bki.filters.basicauth.BasicAuthNeededFilter;
 
 import javax.ws.rs.ApplicationPath;
@@ -24,6 +25,7 @@ public class CreateServlet extends Application {
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(BasicAuthNeededFilter.class);
+        resources.add(RolesAllowedRequestFilter.class);
         resources.add(ShortenerEndPoint.class);
     }
 }

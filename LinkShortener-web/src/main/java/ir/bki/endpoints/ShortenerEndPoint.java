@@ -38,6 +38,10 @@ public class ShortenerEndPoint {
             @FormParam("desire_link") String desirelink,
             @Context UriInfo uriInfo) {
 
+        if (desirelink.trim().equals("ls") || desirelink.trim().equals("create") || desirelink.trim().equals("/")) {
+            return Response.status(403).entity("Forbidden: You picked a reserved URL!").build();
+        }
+
         if (longUrl != null && expiredDate != null) {
             longUrl = longUrl.trim();
             expiredDate = expiredDate.trim();

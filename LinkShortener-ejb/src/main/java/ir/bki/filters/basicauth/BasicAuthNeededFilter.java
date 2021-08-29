@@ -2,8 +2,12 @@ package ir.bki.filters.basicauth;
 
 
 import ir.bki.app.AppConstants;
+import ir.bki.dao.RoleDao;
 import ir.bki.dao.UserDao;
+import ir.bki.entities.Role;
 import ir.bki.entities.User;
+import ir.bki.filters.auhtorize.SecurityContextCustom;
+import ir.bki.filters.auhtorize.UserPrincipalDto;
 import ir.bki.util.PasswordUtils;
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -17,25 +21,26 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+import java.util.Collections;
 
 import static ir.bki.logging.LoggerTypes.BASICAUTH;
-import static javax.ws.rs.Priorities.AUTHORIZATION;
+import static javax.ws.rs.Priorities.AUTHENTICATION;
 
 /**
  * @Author Mohsen Sabbaghi
  */
 
 @Provider
-@Priority(AUTHORIZATION)
+@Priority(AUTHENTICATION)
 @BasicAuthNeeded
 public class BasicAuthNeededFilter implements ContainerRequestFilter {
-
     //TO USE THIS FILTER YOU NEED TO SET BELOW CONFIGURATION
     //WebLogic setting for active BASIC SECURITY
     //the Oracle/Middleware/user_projects/domains/domain_name/config directory.
     //Locate the <security-configuration>
     //<enforce-valid-basic-auth-credentials>false</enforce-valid-basic-auth-credentials>
     private static final Logger LOGGER = Logger.getLogger(BASICAUTH);
+    private String USER_NAME;
 
     //-------------------------------------------------------------------------------
     private static boolean isBasicTokenBasedAuthentication(String authorizationHeader) {
@@ -52,14 +57,31 @@ public class BasicAuthNeededFilter implements ContainerRequestFilter {
         }
         try {
             verifyUserPass(authHeader, request);
+
+            //setUserNametoSecurityContext for next filter
+            setUserNametoSecurityContext(request, USER_NAME);
+
         } catch (Exception ex) {
             LOGGER.error("#Exception in basic Filter : " + " ,message: " + ex.getMessage());
             abortWithUnauthorized(request, ex.getMessage());
         }
     }
 
+    private void setUserNametoSecurityContext(ContainerRequestContext request, String user) {
+        UserPrincipalDto userPrincipalDto = new UserPrincipalDto(user);// Set User To Security Context :-)
+        Role role = new Role();
+        try {
+            role = getRoleDao().findById(user.trim());
+        } catch (Exception e) {
+            LOGGER.error("#Cant Find Role: " + e.getMessage());
+        }
+
+        userPrincipalDto.setRoles(Collections.singletonList(role.getName()));
+        request.setSecurityContext(new SecurityContextCustom(userPrincipalDto, request.getSecurityContext().getAuthenticationScheme()));
+    }
+
     //-------------------------------------------------------------------------------
-    private UserDao getDao() {
+    private UserDao getUserDao() {
         InitialContext ctx;
         UserDao userDao = null;
         try {
@@ -71,6 +93,19 @@ public class BasicAuthNeededFilter implements ContainerRequestFilter {
             LOGGER.error("Cannot do the JNDI Lookup to instantiate the userDao service : " + ex);
         }
         return userDao;
+    }
+
+    //-------------------------------------------------------------------------------
+    private RoleDao getRoleDao() {
+        InitialContext ctx;
+        RoleDao roleDao = null;
+        try {
+            ctx = new InitialContext();
+            roleDao = (RoleDao) ctx.lookup("java:app/LinkShortener-ejb/RoleDao");
+        } catch (NamingException ex) {
+            LOGGER.error("Cannot do the JNDI Lookup to instantiate the RoleDao service : " + ex);
+        }
+        return roleDao;
     }
 
     //-------------------------------------------------------------------------------------------------
@@ -92,23 +127,25 @@ public class BasicAuthNeededFilter implements ContainerRequestFilter {
             throw new Exception("user '" + username + "' does not found.");
         if (!user.getEnabled())
             throw new Exception("user '" + username + "' is locked.");
+        USER_NAME = username;
         considerUserAndPassword(username, password, user, request);
     }
 
     //-------------------------------------------------------------------------------------------------
     private void considerUserAndPassword(String username, String password, User user, ContainerRequestContext request) throws Exception {
 
+
         if (!user.getPassword().equals(PasswordUtils.digestPassword(password))) {
             if (user.getTryCount() == null) user.setTryCount(0);
             if (user.getTryCount() < 3) {
                 user.setTryCount(1 + user.getTryCount());
-                getDao().edit(user, user.getUsername());
+                getUserDao().edit(user, user.getUsername());
                 throw new Exception("Invalid username or password. Username: [" + username + "]");
             } else {
                 user.setTryCount(1 + user.getTryCount());
                 user.setStatus(-1);
                 user.setEnabled(false);
-                getDao().edit(user, user.getUsername());
+                getUserDao().edit(user, user.getUsername());
                 throw new Exception("Invalid user/password input exceeded. Username: [" + username + "]");
             }
         } else {//password is correct
@@ -116,7 +153,7 @@ public class BasicAuthNeededFilter implements ContainerRequestFilter {
                 user.setTryCount(0);
                 user.setEnabled(true);
                 user.setStatus(0);
-                getDao().edit(user, user.getUsername());
+                getUserDao().edit(user, user.getUsername());
                 LOGGER.info("Successfully called API with address [" + request.getUriInfo().getPath() + "] and [UserName: " + username + "]");
             }
         }

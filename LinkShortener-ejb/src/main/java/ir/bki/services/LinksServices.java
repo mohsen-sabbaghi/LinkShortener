@@ -12,6 +12,8 @@ import org.joda.time.format.ISODateTimeFormat;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Stateless
@@ -24,7 +26,6 @@ public class LinksServices {
 
     @Inject
     public HashThisProducer hashids;
-
 
     public Links createLink(LinkDto linkDto) {
         Links links = new Links();
@@ -41,14 +42,15 @@ public class LinksServices {
             encodedLink = linkDto.getDesiredlink();
         }
         links.setShortLink(encodedLink);
-        return linksDao.getEm().merge(links);
+//        return linksDao.getEm().merge(links);
+        return linksDao.edit(links);
     }
 
     public Links retrieveOne(long id) {
         Links res;
         try {
-            res = linksDao.getEm().createNamedQuery(Links.FIND_BY_ID, Links.class).setParameter("id", id).getSingleResult();
-
+//            res = linksDao.getEm().createNamedQuery(Links.FIND_BY_ID, Links.class).setParameter("id", id).getSingleResult();
+            res = linksDao.findById(id);
         } catch (NoResultException e) {
             return null;
         }
@@ -58,9 +60,12 @@ public class LinksServices {
     public Links longUrlAlreadyExist(String longUrl) {
         Links res = null;
         try {
-            res = (Links) linksDao.getEm()
-                    .createNamedQuery(Links.FIND_BY_LONG_URL)
-                    .setParameter("redirectLink", longUrl).getSingleResult();
+//            res = (Links) linksDao.getEm()
+//                    .createNamedQuery(Links.FIND_BY_LONG_URL)
+//                    .setParameter("redirectLink", longUrl).getSingleResult();
+            Map<String, Object> parameter = new HashMap<>();
+            parameter.put("redirectLink", longUrl);
+            res = linksDao.findSingleWithNamedQuery(Links.FIND_BY_LONG_URL, parameter);
         } catch (Exception ignored) {
         }
         return res;
@@ -69,9 +74,12 @@ public class LinksServices {
     public Links shortUrlAlreadyExist(String shortUrl) {
         Links res = null;
         try {
-            res = (Links) linksDao.getEm()
-                    .createNamedQuery(Links.FIND_BY_SHORT_URL)
-                    .setParameter("shortLink", shortUrl).getSingleResult();
+//            res = (Links) linksDao.getEm()
+//                    .createNamedQuery(Links.FIND_BY_SHORT_URL)
+//                    .setParameter("shortLink", shortUrl).getSingleResult();
+            Map<String, Object> parameter = new HashMap<>();
+            parameter.put("shortLink", shortUrl);
+            res = linksDao.findSingleWithNamedQuery(Links.FIND_BY_SHORT_URL, parameter);
         } catch (Exception ignored) {
         }
         return res;
@@ -81,4 +89,5 @@ public class LinksServices {
         DateTime second = new DateTime(links.getExpiresDate());
         return second.isBeforeNow();
     }
+
 }

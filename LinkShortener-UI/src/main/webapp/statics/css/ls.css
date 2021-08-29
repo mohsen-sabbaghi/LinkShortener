@@ -47,3 +47,26 @@
 .near-moon-gradient {
     background-image: linear-gradient(to bottom, #5ee7df 0%, #b490ca 100%);
 }
+
+
+a.disable a.remove {
+    text-decoration: none !important;
+}
+
+.icon-trash {
+    color: red;
+    font-size: 16pt !important;
+
+}
+
+.icon-enabled {
+    color: #00C853;
+    font-size: 16pt !important;
+
+}
+
+.icon-disabled {
+    color: darkgray;
+    font-size: 16pt !important;
+
+}

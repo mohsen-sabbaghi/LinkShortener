@@ -13,18 +13,18 @@ import javax.ws.rs.core.MediaType;
 @Path("maintenance")
 @Loggable
 @LogReqRes
-public class AppEndPoint {
+public class MaintenanceEndPoint {
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_HTML)
     public String getVersion() {
-        return String.valueOf(new DateTime().toLocalDateTime());
+        return "<h3>" + new DateTime().toLocalDateTime() + "</h3>";
     }
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("version")
     public String ping() {
-        return AppConstants.APP_VERSION;
+        return "<h3> App Version: " + AppConstants.APP_VERSION + "</h3>";
     }
 }

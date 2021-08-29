@@ -20,19 +20,29 @@
 
     <link rel='stylesheet' href='webjars/bootstrap/4.6.0/css/bootstrap.min.css'>
 
-    <link rel="stylesheet" href="statics/css/mdb.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/mdb.min.css">
 
-    <link rel="stylesheet" href="statics/css/fontello.css">
-    <script src="statics/js/ls.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href=statics/css/ls.css>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/statics/css/fontello.css">
+    <script src="${pageContext.request.contextPath}/statics/js/ls.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href=${pageContext.request.contextPath}/statics/css/ls.css>
 </head>
 
 <body class="hm-gradient">
-<br>
-<h2 class="text-center">Agriculture Bank Link Shortener Service</h2>
+
+<div class="container-fluid">
+    <br>
+    <div class="row justify-content-center">
+        <h2 class="text-center">Agriculture Bank Link Shortener Service</h2>
+    </div>
+    <div class="row">
+        &nbsp; <a class="left" href="/shorten/admin">Administration</a>
+    </div>
+</div>
+
 <hr>
 
 <div class="container">
+
     <div class="row">
         <div class="col-sm-12">
             <form method="post" action="/create/link" class="ls-form">

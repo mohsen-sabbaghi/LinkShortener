@@ -20,7 +20,7 @@ public class EmptyPathHandle {
 
     @GET
     public String handleEmpty() throws IOException {
-        if (request.getRequestURI().equals("") || request.getRequestURI().equals("/")) {
+        if (request.getRequestURI().equals("") || request.getRequestURI().equals("/") || request.getRequestURI().equals("/administrator.jsp")) {
             response.sendRedirect("/shorten");
         }
         return "Redirected to create new url";

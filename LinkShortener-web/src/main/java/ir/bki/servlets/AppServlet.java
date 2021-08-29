@@ -1,12 +1,13 @@
-package ir.bki.config;
+package ir.bki.servlets;
 
-import ir.bki.endpoints.AppEndPoint;
+import ir.bki.endpoints.AdminEndPoint;
+import ir.bki.endpoints.MaintenanceEndPoint;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.Set;
 
-@ApplicationPath("app")
+@ApplicationPath("ls")
 public class AppServlet extends Application {
 
     @Override
@@ -27,6 +28,7 @@ public class AppServlet extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(AppEndPoint.class);
+        resources.add(MaintenanceEndPoint.class);
+        resources.add(AdminEndPoint.class);
     }
 }

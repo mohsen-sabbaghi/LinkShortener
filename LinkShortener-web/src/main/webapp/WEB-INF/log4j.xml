@@ -144,6 +144,18 @@
         </layout>
     </appender>
 
+    <appender name="authorization" class="org.apache.log4j.RollingFileAppender">
+        <param name="file"
+               value="/u01/Middleware/home/domains/LINKSHORTENER/logs/filters/authorization/authorization.log"/>
+        <param name="MaxFileSize" value="20000KB"/>
+        <param name="MaxBackupIndex" value="20"/>
+        <param name="Append" value="true"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{yyyy-MM-dd HH:mm:ss:SSS} [%-5p] [%-10.10c{1}:%-4L] [%-23.23M] -> %m%n"/>
+        </layout>
+    </appender>
+
     <!--====================================loggers============================================-->
 
     <logger name="basicAuth" additivity="false">
@@ -190,6 +202,11 @@
     <logger name="requests" additivity="false">
         <level value="info"/>
         <appender-ref ref="requests"/>
+    </logger>
+
+    <logger name="authorization" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="authorization"/>
     </logger>
 
     <!--====================================Root============================================-->
